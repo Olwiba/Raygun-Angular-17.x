@@ -1,0 +1,11 @@
+{
+  "config": {
+    "raygunApiKey": "uncnDVRocBzocCZKnvxiw",
+    "environment": "development",
+    "version": "1.0.0",
+    "features": {
+      "crashReporting": true,
+      "realUserMonitoring": true
+    }
+  }
+}
