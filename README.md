@@ -2,7 +2,7 @@
 
 # Raygun4js Angular 17.x Integration
 
-This repository demonstrates the correct way to integrate raygun4js into an Angular 17.x application where the API key must be fetched dynamically from a REST service.
+This repository demonstrates a way to integrate raygun4js into an Angular 17.x application where the API key must be fetched dynamically from a REST service.
 
 ## Solution Overview
 
