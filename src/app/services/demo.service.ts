@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { sendErrorToRaygun, sendRumEventToRaygun, getRaygunInitializationStatus } from '../raygun.setup';
+import { sendErrorToRaygun, sendRumEventToRaygun, getRaygunInitializationStatus, getBrowserInfo } from '../raygun.setup';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,9 @@ export class DemoService {
     try {
       console.log('Triggering crash reporting error...');
       
-      // Simulate a JavaScript error
-      const errorObject = new Error('Demo crash reporting error - This is intentional for testing purposes');
+      // Include browser info in error message
+      const browser = getBrowserInfo();
+      const errorObject = new Error(`${browser}: Demo crash reporting error - This is intentional for testing purposes`);
       errorObject.name = 'DemoCrashError';
       
       // Send error to Raygun using the working demo pattern

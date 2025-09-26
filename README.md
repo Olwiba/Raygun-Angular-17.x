@@ -10,6 +10,7 @@ The solution uses immediate raygun4js initialization combined with dynamic API k
 - Proper raygun4js integration pattern (based on proven working demo)
 - Dynamic API key fetching from REST endpoint
 - Angular ErrorHandler integration for automatic error reporting
+- Cross-browser compatibility (Chrome, Firefox, Safari, Edge)
 
 ## Quick Start
 
@@ -74,7 +75,15 @@ async function initializeRaygunWithDynamicKey(): Promise<void> {
 @Injectable()
 export class RaygunErrorHandler implements ErrorHandler {
   handleError(error: any): void {
-    rg4js('send', { error: error });
+    // Cross-browser compatibility handling
+    const browser = getBrowserInfo();
+    if (browser === 'Firefox') {
+      // Firefox workaround for known raygun4js issues
+      window.Raygun.send({ error: error });
+    } else {
+      // Chrome and other browsers
+      rg4js('send', { error: error });
+    }
   }
 }
 ```
@@ -180,6 +189,7 @@ catch (error) {
 - This application uses a demo API key for testing
 - In production, ensure the Raygun API key is valid
 - Check Raygun dashboard for incoming events
+- **Firefox users**: Some raygun4js features use workarounds for browser compatibility
 
 ### Development Commands
 

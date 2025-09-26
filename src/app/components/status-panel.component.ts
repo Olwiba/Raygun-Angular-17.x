@@ -72,6 +72,7 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
 
   private raygunInitializedListener?: (event: CustomEvent) => void;
   private raygunErrorListener?: (event: CustomEvent) => void;
+  private raygunNetworkListener?: (event: CustomEvent) => void;
 
   constructor() {}
 
@@ -94,8 +95,14 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
       this.addLog('error', `Raygun initialization failed: ${event.detail.error.message}`);
     };
 
+    this.raygunNetworkListener = (event: CustomEvent) => {
+      const { method, url, browser } = event.detail;
+      this.addLog('success', `🌐 Network request intercepted: ${method} ${url} (${browser})`);
+    };
+
     window.addEventListener('raygun-initialized', this.raygunInitializedListener as EventListener);
     window.addEventListener('raygun-init-error', this.raygunErrorListener as EventListener);
+    window.addEventListener('raygun-network-request', this.raygunNetworkListener as EventListener);
 
     // Listen for console logs to capture demo service activity
     this.interceptConsoleLog();
@@ -107,6 +114,9 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
     }
     if (this.raygunErrorListener) {
       window.removeEventListener('raygun-init-error', this.raygunErrorListener as EventListener);
+    }
+    if (this.raygunNetworkListener) {
+      window.removeEventListener('raygun-network-request', this.raygunNetworkListener as EventListener);
     }
   }
 
@@ -136,7 +146,7 @@ export class StatusPanelComponent implements OnInit, OnDestroy {
 
     console.log = (...args: any[]) => {
       const message = args.join(' ');
-      if (message.includes('Raygun') || message.includes('Configuration') || message.includes('Triggering') || message.includes('sent to Raygun')) {
+      if (message.includes('Raygun') || message.includes('Configuration') || message.includes('Triggering') || message.includes('sent to Raygun') || message.includes('🌐 Network request intercepted')) {
         this.addLog('info', message);
       }
       originalLog.apply(console, args);
