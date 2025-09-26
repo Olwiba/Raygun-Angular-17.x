@@ -1,3 +1,5 @@
+![](https://assets-global.website-files.com/5e2701b416b6d176f5007781/6344bbf42c1388b9f34a5c6f_logo-colour-stylised-2.svg)
+
 # Raygun4js Angular 17.x Integration
 
 This repository demonstrates the correct way to integrate raygun4js into an Angular 17.x application where the API key must be fetched dynamically from a REST service.
